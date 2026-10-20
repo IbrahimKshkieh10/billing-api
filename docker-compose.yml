@@ -1,0 +1,20 @@
+services:
+  app:
+    build: .
+    command: php artisan serve --host=0.0.0.0 --port=8000
+    ports: ["8001:8000"]
+    volumes: ["./src:/var/www/html"]
+    depends_on: [mysql, redis]
+  mysql:
+    image: mysql:8
+    environment:
+      MYSQL_DATABASE: billing
+      MYSQL_USER: billing
+      MYSQL_PASSWORD: secret
+      MYSQL_ROOT_PASSWORD: root
+    ports: ["3307:3306"]
+  redis:
+    image: redis:7
+  mailpit:
+    image: axllent/mailpit
+    ports: ["8025:8025"]
